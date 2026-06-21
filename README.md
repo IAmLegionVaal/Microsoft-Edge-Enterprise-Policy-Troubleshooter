@@ -2,35 +2,19 @@
 
 Created by **Dewald Pretorius**.
 
-A read-only PowerShell toolkit for investigating Microsoft Edge enterprise policy application, registry scope, duplicate configuration, Edge Update policy, Group Policy evidence, and recent Edge-related events.
+The repository includes the original read-only policy diagnostics and a new `Repair.ps1` helper.
 
-## Checks
+Supported helper actions:
 
-- Computer and user Edge policy registry paths
-- 32-bit policy registry path
-- Duplicate policy names across multiple scopes
-- Installed Microsoft Edge version
-- Edge Update policies
-- Group Policy Result report
-- Recent Edge and Edge Update events
-
-## Run
+- `Diagnose`
+- `RefreshUserPolicy`
+- `ResetBrowserCache`
+- `FlushDns`
 
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File ".\Microsoft_Edge_Enterprise_Policy_Troubleshooter.ps1"
+.\Repair.ps1 -Action Diagnose
+.\Repair.ps1 -Action RefreshUserPolicy -WhatIf
+.\Repair.ps1 -Action ResetBrowserCache -Confirm
 ```
 
-Reports are written to `Desktop\Edge_Enterprise_Policy_Reports` as TXT, CSV, and GPResult HTML.
-
-## Scenarios supported
-
-- A managed policy is not applying
-- A browser setting says “Managed by your organization” unexpectedly
-- User and computer policies conflict
-- Edge Update behavior does not match the approved channel
-- Extension, startup-page, proxy, download, or security policy appears incorrect
-- Policy refresh succeeds but Edge still shows an unexpected value
-
-## Safety
-
-The toolkit does not change registry policies, Group Policy, Edge configuration, extensions, or update settings. Changes should be made through the authoritative management platform after reviewing the evidence.
+The helper records current Edge policy evidence before acting. It does not change managed policy registry values. Browser cache data is preserved in a timestamped backup. All changes use PowerShell confirmation and logging. Source-reviewed; not runtime-tested in every managed Edge environment.
